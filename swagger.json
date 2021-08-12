@@ -1,0 +1,207 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Sistema desenvolvido para a disciplina de Tecnologias Web 2021/1, Professor Elder",
+    "version": "2",
+    "title": "Medicamentos Epilepsia",
+    "contact": {
+      "email": "analeticianeves@aluno.ufsj.edu.br"
+    }
+  },
+  "host": "localhost",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "Medicamento",
+      "description": "Tudo sobre os medicamentos"
+    },
+    {
+      "name": "painel",
+      "description": "Acesso ao painel"
+    },
+    {
+      "name": "usuario",
+      "description": "Operacoes para gerência de usuários"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/med": {
+      "post": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Adiciona um novo medicamento",
+        "operationId": "addMed",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto medicamento a ser adicionado no painel",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/med"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/med"
+            }
+          }
+        }
+      }
+    },
+    "/med/{medId}": {
+      "get": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Busca medicamento pelo ID",
+        "operationId": "getMedById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "medId",
+            "in": "path",
+            "description": "ID do medicamento",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucessful operation",
+            "schema": {
+              "$ref": "#/definitions/med"
+            }
+          },
+          "400": {
+            "description": "invalid ID supplied"
+          },
+          "404": {
+            "description": "medicamento não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Atualizar um medicamento no painel",
+        "consumes": [
+          "aplicantion/json"
+        ],
+        "produces": [
+          "aplication/json"
+        ],
+        "parameters": [
+          {
+            "name": "medId",
+            "in": "path",
+            "description": "ID necessario para atualizar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "objeto a ser atualizado",
+            "schema": {
+              "$ref": "#/definitions/med"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucessful operarion",
+            "schema": {
+              "$ref": "#/definitions/med"
+            }
+          },
+          "400": {
+            "description": "invalid ID supplied"
+          },
+          "404": {
+            "description": "medicamento não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Medicamento"
+        ],
+        "summary": "Apaga um medicamento",
+        "operationId": "deleteMed",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "medId",
+            "in": "path",
+            "description": "ID do medicamento a ser apagado",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucessful operation",
+            "schema": {
+              "$ref": "#/definitions/med"
+            }
+          },
+          "400": {
+            "description": "invalid ID supplied"
+          },
+          "404": {
+            "description": "medicamento não encontrado"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "med": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modelo": {
+          "type": "string",
+          "format": "int64"
+        },
+        "marca": {
+          "type": "string",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "unvailable",
+            "outoforder"
+          ]
+        }
+      }
+    }
+  }
+}
