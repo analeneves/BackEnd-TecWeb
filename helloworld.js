@@ -8,7 +8,6 @@ var mysql = require("mysql");
 
 var connection = mysql.createConnection({
   host: "localhost",
-  port: "3000",
   user: "root",
   password: "0000",
   database: "tecweb"
@@ -70,28 +69,23 @@ app.get("/med",(req,resp) =>{
 app.post('/med', function(req, resp){
     var med = req.body;
     console.log("POST - Med");
+    console.log(JSON.stringify(med));
     connection.query("INSERT INTO med SET ?", [med], (err, result) => {
       if(err){
         console.log(err);
         resp.status(500).end();
-
-    }else{
-      resp.status(200);
-      resp.json(result.insertedId);
-        
-    }
-  });
-    console.log(JSON.stringify(med));
-    resp.send("OK")
-    
+      }else{
+        resp.status(200);
+        resp.json(result.insertedId);
+      }
+    });
 });
 
-  app.get("/med/:medId", (req, resp) =>{
+app.get("/med/:medId", (req, resp) =>{
     var medId = req.params.medId;
     console.log("GET - MedId " + medId);
 
-    med=connection.query("SELECT * FROM med WHERE idmed=?",[medId], (err,result) =>  {
-        
+    connection.query("SELECT * FROM med WHERE idmed=?",[medId], (err,result) =>  {
         if(err){
             console.log(err);
             resp.status(500).end();
@@ -99,12 +93,8 @@ app.post('/med', function(req, resp){
         }else{
             resp.status(200);
             resp.json(result)
-            
         }
     });
-
-    resp.send("Sucessoooo")
-    console.log("GET - medId: "+medId);
 });
 
 app.put("/med/:medId",(req,resp) => {
@@ -114,7 +104,7 @@ app.put("/med/:medId",(req,resp) => {
   console.log(medId)
   var med = req.body;
 
-  connection.query("UPDATE demandas SET ? WHERE iddemandas=?",[med,medId],(err,result) =>{
+  connection.query("UPDATE demandas SET ? WHERE idmed=?",[med,medId],(err,result) =>{
       if(err){
           console.log(err);
           resp.status(500).end();
